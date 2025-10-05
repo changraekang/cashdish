@@ -1,4 +1,4 @@
-import { Top, FixedBottomCTA } from "@toss/tds-mobile";
+import { Top, FixedBottomCTA, Asset } from "@toss/tds-mobile";
 import { adaptive } from "@toss/tds-colors";
 
 interface GuidebookDetailProps {
@@ -17,9 +17,21 @@ function GuidebookDetail({ onHidePage }: GuidebookDetailProps) {
             가이드북 상세
           </Top.TitleParagraph>
         }
-        left={<Top.BackButton onClick={handleBack} />}
+        right={
+          <div
+            onClick={handleBack}
+            style={{ cursor: "pointer", padding: "8px" }}
+          >
+            <Asset.Icon
+              frameShape={Asset.frameShape.CleanW20}
+              name="icon-arrow-back-ios-mono"
+              color={adaptive.grey800}
+              aria-hidden={true}
+            />
+          </div>
+        }
       />
-      <div style={{ padding: "20px", textAlign: "center" }}>
+      <div style={{ padding: "0 8px", textAlign: "center" }}>
         <h2>가이드북 상세</h2>
         <p>프리뷰(목차/대표 리스트/작성자 프로필) → 구독</p>
       </div>

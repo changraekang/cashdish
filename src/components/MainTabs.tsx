@@ -34,7 +34,13 @@ function MainTabs() {
   };
 
   return (
-    <div style={{ width: "320px" }}>
+    <div
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        maxWidth: "375px",
+      }}
+    >
       {/* 메인 탭 페이지들 */}
       <div
         style={{

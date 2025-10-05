@@ -1,4 +1,14 @@
-import { Top, FixedBottomCTA } from "@toss/tds-mobile";
+import {
+  Top,
+  List,
+  ListRow,
+  Border,
+  ListHeader,
+  Badge,
+  Button,
+  Paragraph,
+  Asset,
+} from "@toss/tds-mobile";
 import { adaptive } from "@toss/tds-colors";
 
 interface GuidebookProps {
@@ -11,43 +21,224 @@ function Guidebook({ onHidePage, onShowPage }: GuidebookProps) {
     onShowPage?.("create-guidebook");
   };
 
-  const handleGuidebookDetail = (id: string) => {
-    onShowPage?.("guidebook-detail");
-  };
-
   const handleBack = () => {
     onHidePage();
   };
 
   return (
-    <>
+    <div style={{ height: "100vh", backgroundColor: adaptive.background }}>
       <Top
         title={
           <Top.TitleParagraph size={22} color={adaptive.grey900}>
             가이드북
           </Top.TitleParagraph>
         }
-        left={<Top.BackButton onClick={handleBack} />}
+        right={
+          <div
+            onClick={handleBack}
+            style={{ cursor: "pointer", padding: "8px" }}
+          >
+            <Asset.Icon
+              frameShape={Asset.frameShape.CleanW20}
+              name="icon-x-mono"
+              color={adaptive.grey800}
+              aria-hidden={true}
+            />
+          </div>
+        }
       />
-      <div style={{ padding: "20px", textAlign: "center" }}>
-        <h2>가이드북 스토어</h2>
-        <p>혼밥/가성비/미슐랭/동네 등 카테고리별 가이드북</p>
-        <button
-          onClick={() => handleGuidebookDetail("sample-guidebook")}
+
+      {/* 내 가이드북 */}
+      <div style={{ padding: "0 8px" }}>
+        <ListHeader
+          title={
+            <ListHeader.TitleParagraph
+              color={adaptive.grey800}
+              fontWeight="bold"
+              typography="t5"
+            >
+              📖 내 가이드북
+            </ListHeader.TitleParagraph>
+          }
+          descriptionPosition="bottom"
+        />
+
+        <List>
+          <ListRow
+            contents={
+              <div style={{ textAlign: "center", width: "100%" }}>
+                <Paragraph
+                  color={adaptive.grey600}
+                  typography="t6"
+                  style={{ marginBottom: "12px" }}
+                >
+                  아직 작성한 가이드북이 없어요
+                </Paragraph>
+                <Button
+                  size="small"
+                  variant="weak"
+                  onClick={handleCreateGuidebook}
+                >
+                  첫 가이드북 만들기
+                </Button>
+              </div>
+            }
+            verticalPadding="large"
+          />
+        </List>
+      </div>
+
+      <Border variant="height16" />
+
+      {/* 구독한 가이드북 */}
+      <div style={{ padding: "0 8px" }}>
+        <ListHeader
+          title={
+            <ListHeader.TitleParagraph
+              color={adaptive.grey800}
+              fontWeight="bold"
+              typography="t5"
+            >
+              📚 구독한 가이드북
+            </ListHeader.TitleParagraph>
+          }
+          descriptionPosition="bottom"
+        />
+
+        <List>
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="월 200만원대 소비자를 위한 맛집 가이드"
+                topProps={{ color: adaptive.grey900, fontWeight: "bold" }}
+              />
+            }
+            right={
+              <Badge variant="weak" color="elephant" size="small">
+                구독중
+              </Badge>
+            }
+            verticalPadding="large"
+          />
+
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="강남 맛집 완벽 가이드"
+                topProps={{ color: adaptive.grey900, fontWeight: "bold" }}
+              />
+            }
+            right={
+              <Badge variant="weak" color="elephant" size="small">
+                구독중
+              </Badge>
+            }
+            verticalPadding="large"
+          />
+        </List>
+      </div>
+
+      <Border variant="height16" />
+
+      {/* 가이드북 스토어 */}
+      <div style={{ padding: "0 8px" }}>
+        <ListHeader
+          title={
+            <ListHeader.TitleParagraph
+              color={adaptive.grey800}
+              fontWeight="bold"
+              typography="t5"
+            >
+              🏪 가이드북 스토어
+            </ListHeader.TitleParagraph>
+          }
+          descriptionPosition="bottom"
+        />
+
+        {/* 카테고리 */}
+        <div
           style={{
-            marginTop: "10px",
-            padding: "10px 20px",
-            backgroundColor: "#34C759",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
+            display: "flex",
+            gap: "8px",
+            marginBottom: "16px",
+            flexWrap: "wrap",
           }}
         >
-          가이드북 상세 보기
-        </button>
+          <Badge variant="fill" color="blue" size="small">
+            혼밥
+          </Badge>
+          <Badge variant="weak" color="elephant" size="small">
+            가성비
+          </Badge>
+          <Badge variant="weak" color="elephant" size="small">
+            미슐랭
+          </Badge>
+          <Badge variant="weak" color="elephant" size="small">
+            동네
+          </Badge>
+        </div>
+
+        <List>
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="혼밥러를 위한 완벽 가이드"
+                topProps={{ color: adaptive.grey900, fontWeight: "bold" }}
+              />
+            }
+            right={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  gap: "4px",
+                }}
+              >
+                <Badge variant="weak" color="elephant" size="small">
+                  혼밥
+                </Badge>
+                <span style={{ fontSize: "12px", color: adaptive.grey500 }}>
+                  15개 맛집
+                </span>
+              </div>
+            }
+            verticalPadding="large"
+          />
+
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="가성비 맛집 TOP 20"
+                topProps={{ color: adaptive.grey900, fontWeight: "bold" }}
+              />
+            }
+            right={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  gap: "4px",
+                }}
+              >
+                <Badge variant="weak" color="elephant" size="small">
+                  가성비
+                </Badge>
+                <span style={{ fontSize: "12px", color: adaptive.grey500 }}>
+                  20개 맛집
+                </span>
+              </div>
+            }
+            verticalPadding="large"
+          />
+        </List>
       </div>
-    </>
+    </div>
   );
 }
 

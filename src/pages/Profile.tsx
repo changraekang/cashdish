@@ -6,7 +6,6 @@ import {
   Border,
   ListHeader,
   Badge,
-  TextButton,
 } from "@toss/tds-mobile";
 import { adaptive } from "@toss/tds-colors";
 
@@ -16,7 +15,12 @@ interface ProfileProps {
 
 function Profile({ onShowPage }: ProfileProps) {
   return (
-    <div style={{ width: "100%" }}>
+    <div
+      style={{
+        height: "100vh",
+        backgroundColor: adaptive.background,
+      }}
+    >
       <Top
         title={
           <Top.TitleParagraph size={22} color={adaptive.grey900}>
@@ -47,6 +51,7 @@ function Profile({ onShowPage }: ProfileProps) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          padding: "0 8px",
         }}
       >
         <img
@@ -67,69 +72,71 @@ function Profile({ onShowPage }: ProfileProps) {
       <div style={{ height: "22px" }} />
 
       {/* 기본 정보 */}
-      <List>
-        <ListRow
-          contents={
-            <ListRow.Texts
-              type="1RowTypeA"
-              top="닉네임"
-              topProps={{ color: adaptive.grey800 }}
-            />
-          }
-          right={
-            <ListRow.Texts
-              type="Right1RowTypeA"
-              top="맛집탐험가"
-              topProps={{ color: adaptive.grey700 }}
-              marginTop={0}
-            />
-          }
-          verticalPadding="large"
-        />
+      <div style={{ padding: "0 8px" }}>
+        <List>
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="닉네임"
+                topProps={{ color: adaptive.grey800 }}
+              />
+            }
+            right={
+              <ListRow.Texts
+                type="Right1RowTypeA"
+                top="맛집탐험가"
+                topProps={{ color: adaptive.grey700 }}
+                marginTop={0}
+              />
+            }
+            verticalPadding="large"
+          />
 
-        <ListRow
-          contents={
-            <ListRow.Texts
-              type="1RowTypeA"
-              top="가입일"
-              topProps={{ color: adaptive.grey800 }}
-            />
-          }
-          right={
-            <ListRow.Texts
-              type="Right1RowTypeA"
-              top="2024.01.15"
-              topProps={{ color: adaptive.grey700 }}
-              marginTop={0}
-            />
-          }
-          verticalPadding="large"
-        />
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="가입일"
+                topProps={{ color: adaptive.grey800 }}
+              />
+            }
+            right={
+              <ListRow.Texts
+                type="Right1RowTypeA"
+                top="2024.01.15"
+                topProps={{ color: adaptive.grey700 }}
+                marginTop={0}
+              />
+            }
+            verticalPadding="large"
+          />
 
-        <ListRow
-          contents={
-            <ListRow.Texts
-              type="1RowTypeA"
-              top="작성한 리뷰"
-              topProps={{ color: adaptive.grey800 }}
-            />
-          }
-          right={
-            <ListRow.Texts
-              type="Right1RowTypeA"
-              top="24개"
-              topProps={{ color: adaptive.grey700 }}
-              marginTop={0}
-            />
-          }
-          verticalPadding="large"
-        />
-      </List>
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="작성한 리뷰"
+                topProps={{ color: adaptive.grey800 }}
+              />
+            }
+            right={
+              <ListRow.Texts
+                type="Right1RowTypeA"
+                top="24개"
+                topProps={{ color: adaptive.grey700 }}
+                marginTop={0}
+              />
+            }
+            verticalPadding="large"
+          />
+        </List>
+      </div>
 
       <Border variant="height16" />
 
       {/* 소득 정보 */}
-      <div>
+      <div style={{ padding: "0 8px" }}>
         <ListHeader
           title={
             <ListHeader.TitleParagraph
@@ -143,7 +150,7 @@ function Profile({ onShowPage }: ProfileProps) {
           descriptionPosition="bottom"
         />
         <Badge variant="weak" color="elephant" size="small">
-          맞춤 추천을 위한 정보
+          나만의 맞춤 추천을 위해 사용해요
         </Badge>
 
         <List>
@@ -191,134 +198,138 @@ function Profile({ onShowPage }: ProfileProps) {
       <Border variant="padding24" />
 
       {/* 자산 정보 */}
-      <ListHeader
-        title={
-          <ListHeader.TitleParagraph
-            color={adaptive.grey800}
-            fontWeight="bold"
-            typography="t5"
-          >
-            자산 정보
-          </ListHeader.TitleParagraph>
-        }
-        descriptionPosition="bottom"
-      />
-
-      <List>
-        <ListRow
-          contents={
-            <ListRow.Texts
-              type="1RowTypeA"
-              top="토스 연동"
-              topProps={{ color: adaptive.grey800 }}
-            />
+      <div style={{ padding: "0 8px" }}>
+        <ListHeader
+          title={
+            <ListHeader.TitleParagraph
+              color={adaptive.grey800}
+              fontWeight="bold"
+              typography="t5"
+            >
+              자산 정보
+            </ListHeader.TitleParagraph>
           }
-          right={
-            <ListRow.Texts
-              type="Right1RowTypeA"
-              top="연결됨"
-              topProps={{ color: adaptive.grey700 }}
-              marginTop={0}
-            />
-          }
-          verticalPadding="large"
+          descriptionPosition="bottom"
         />
 
-        <ListRow
-          contents={
-            <ListRow.Texts
-              type="1RowTypeA"
-              top="월 평균 지출"
-              topProps={{ color: adaptive.grey800 }}
-            />
-          }
-          right={
-            <ListRow.Texts
-              type="Right1RowTypeA"
-              top="120만원"
-              topProps={{ color: adaptive.grey700 }}
-              marginTop={0}
-            />
-          }
-          verticalPadding="large"
-        />
-      </List>
+        <List>
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="토스 연동"
+                topProps={{ color: adaptive.grey800 }}
+              />
+            }
+            right={
+              <ListRow.Texts
+                type="Right1RowTypeA"
+                top="연결됨"
+                topProps={{ color: adaptive.grey700 }}
+                marginTop={0}
+              />
+            }
+            verticalPadding="large"
+          />
+
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="월 평균 지출"
+                topProps={{ color: adaptive.grey800 }}
+              />
+            }
+            right={
+              <ListRow.Texts
+                type="Right1RowTypeA"
+                top="120만원"
+                topProps={{ color: adaptive.grey700 }}
+                marginTop={0}
+              />
+            }
+            verticalPadding="large"
+          />
+        </List>
+      </div>
 
       <div style={{ height: "16px" }} />
       <Border variant="padding24" />
 
       {/* 취향 정보 */}
-      <ListHeader
-        title={
-          <ListHeader.TitleParagraph
-            color={adaptive.grey800}
-            fontWeight="bold"
-            typography="t5"
-          >
-            취향 정보
-          </ListHeader.TitleParagraph>
-        }
-        descriptionPosition="bottom"
-      />
-
-      <List>
-        <ListRow
-          contents={
-            <ListRow.Texts
-              type="1RowTypeA"
-              top="자주 가는 동네"
-              topProps={{ color: adaptive.grey800 }}
-            />
+      <div style={{ padding: "0 8px" }}>
+        <ListHeader
+          title={
+            <ListHeader.TitleParagraph
+              color={adaptive.grey800}
+              fontWeight="bold"
+              typography="t5"
+            >
+              취향 정보
+            </ListHeader.TitleParagraph>
           }
-          right={
-            <ListRow.Texts
-              type="Right1RowTypeA"
-              top="강남구, 홍대, 이태원"
-              topProps={{ color: adaptive.grey700 }}
-              marginTop={0}
-            />
-          }
-          verticalPadding="large"
+          descriptionPosition="bottom"
         />
 
-        <ListRow
-          contents={
-            <ListRow.Texts
-              type="1RowTypeA"
-              top="좋아하는 음식 종류"
-              topProps={{ color: adaptive.grey800 }}
-            />
-          }
-          right={
-            <ListRow.Texts
-              type="Right1RowTypeA"
-              top="한식, 일식, 카페"
-              topProps={{ color: adaptive.grey700 }}
-              marginTop={0}
-            />
-          }
-          verticalPadding="large"
-        />
+        <List>
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="자주 가는 동네"
+                topProps={{ color: adaptive.grey800 }}
+              />
+            }
+            right={
+              <ListRow.Texts
+                type="Right1RowTypeA"
+                top="강남구, 홍대, 이태원"
+                topProps={{ color: adaptive.grey700 }}
+                marginTop={0}
+              />
+            }
+            verticalPadding="large"
+          />
 
-        <ListRow
-          contents={
-            <ListRow.Texts
-              type="1RowTypeA"
-              top="선호 가격대"
-              topProps={{ color: adaptive.grey800 }}
-            />
-          }
-          right={
-            <ListRow.Texts
-              type="Right1RowTypeA"
-              top="1-3만원"
-              topProps={{ color: adaptive.grey700 }}
-              marginTop={0}
-            />
-          }
-          verticalPadding="large"
-        />
-      </List>
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="좋아하는 음식 종류"
+                topProps={{ color: adaptive.grey800 }}
+              />
+            }
+            right={
+              <ListRow.Texts
+                type="Right1RowTypeA"
+                top="한식, 일식, 카페"
+                topProps={{ color: adaptive.grey700 }}
+                marginTop={0}
+              />
+            }
+            verticalPadding="large"
+          />
+
+          <ListRow
+            contents={
+              <ListRow.Texts
+                type="1RowTypeA"
+                top="선호 가격대"
+                topProps={{ color: adaptive.grey800 }}
+              />
+            }
+            right={
+              <ListRow.Texts
+                type="Right1RowTypeA"
+                top="1-3만원"
+                topProps={{ color: adaptive.grey700 }}
+                marginTop={0}
+              />
+            }
+            verticalPadding="large"
+          />
+        </List>
+      </div>
 
       <div style={{ height: "64px" }} />
     </div>

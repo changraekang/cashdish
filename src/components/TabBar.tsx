@@ -7,15 +7,18 @@ function TabBar() {
   return (
     <div
       style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "space-around",
-        alignItems: "center",
+        position: "fixed",
+        bottom: "36px",
         padding: "10px",
         paddingLeft: "20px",
         paddingRight: "20px",
+        width: "328px",
 
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
         borderRadius: "30px",
+        backgroundColor: "white",
         boxShadow:
           "0px 20px 20px -16px #191F2911, 0px 40px 200px 0px #191F293f",
       }}
