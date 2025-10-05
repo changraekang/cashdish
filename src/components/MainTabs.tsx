@@ -36,9 +36,9 @@ function MainTabs() {
   return (
     <div
       style={{
-        alignItems: "center",
-        justifyContent: "center",
-        maxWidth: "375px",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
       }}
     >
       {/* 메인 탭 페이지들 */}
