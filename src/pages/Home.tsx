@@ -1,285 +1,451 @@
-import { Top, Asset, Paragraph, List, ListRow } from "@toss/tds-mobile";
+import {
+  Top,
+  Asset,
+  Paragraph,
+  List,
+  ListRow,
+  ListHeader,
+  Badge,
+  Border,
+} from "@toss/tds-mobile";
 import { adaptive } from "@toss/tds-colors";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface HomeProps {
   onShowPage: (page: string) => void;
 }
 
-function Home({ onShowPage }: HomeProps) {
-  const [selectedTab, setSelectedTab] = useState<"recommend" | "guidebook">(
-    "recommend"
-  );
-  const [selectedSort, setSelectedSort] = useState<"price" | "distance">(
-    "price"
-  );
+interface PropertyItem {
+  id: string;
+  rank: number;
+  name: string;
+  address: string;
+  type: string;
+  tradeType: string;
+  price: string;
+  area: string;
+  views: string;
+  change: string;
+}
 
-  const handleWriteReview = () => {
-    onShowPage("write-review");
-  };
+const TIMEFRAME_OPTIONS = [
+  { id: "7d", label: "최근 7일" },
+  { id: "30d", label: "최근 30일" },
+  { id: "90d", label: "최근 90일" },
+];
+
+const PROPERTY_DATA: Record<string, PropertyItem[]> = {
+  "7d": [
+    {
+      id: "hopyeong-doosan",
+      rank: 1,
+      name: "호평두산위브파크",
+      address: "경기도 남양주시 호평동 622",
+      type: "아파트",
+      tradeType: "매매",
+      price: "7억 5,800",
+      area: "84㎡",
+      views: "7,810회 조회",
+      change: "지난주 대비 +12.5%",
+    },
+    {
+      id: "daerim-planet",
+      rank: 2,
+      name: "대림e-편한세상(검단2지구6BL1L)",
+      address: "인천광역시 서구 마전동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "3억 5,400",
+      area: "59㎡",
+      views: "5,120회 조회",
+      change: "지난주 대비 +8.2%",
+    },
+    {
+      id: "jije-station",
+      rank: 3,
+      name: "지제역 푸르지오 엘리아츠",
+      address: "경기도 평택시 지제동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "6억 9,200",
+      area: "84㎡",
+      views: "4,880회 조회",
+      change: "지난주 대비 +6.4%",
+    },
+    {
+      id: "banpo-riverpark",
+      rank: 4,
+      name: "반포자이",
+      address: "서울특별시 서초구 반포동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "24억 2,000",
+      area: "84㎡",
+      views: "4,110회 조회",
+      change: "지난주 대비 +3.1%",
+    },
+    {
+      id: "pangyo-prugio",
+      rank: 5,
+      name: "판교더샵포레스트",
+      address: "경기도 성남시 분당구 삼평동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "17억 8,500",
+      area: "101㎡",
+      views: "3,860회 조회",
+      change: "지난주 대비 +4.6%",
+    },
+  ],
+  "30d": [
+    {
+      id: "pangyo-prugio",
+      rank: 1,
+      name: "판교더샵포레스트",
+      address: "경기도 성남시 분당구 삼평동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "17억 8,500",
+      area: "101㎡",
+      views: "28,430회 조회",
+      change: "전월 대비 +18.3%",
+    },
+    {
+      id: "suseo-forest",
+      rank: 2,
+      name: "수서역센트럴푸르지오",
+      address: "서울특별시 강남구 수서동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "15억 2,000",
+      area: "84㎡",
+      views: "25,180회 조회",
+      change: "전월 대비 +10.2%",
+    },
+    {
+      id: "gwanggyo-hillstate",
+      rank: 3,
+      name: "광교힐스테이트레이크",
+      address: "경기도 수원시 영통구 하동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "9억 7,400",
+      area: "99㎡",
+      views: "23,040회 조회",
+      change: "전월 대비 +7.9%",
+    },
+    {
+      id: "mapo-prugio",
+      rank: 4,
+      name: "마포프레스티지자이",
+      address: "서울특별시 마포구 아현동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "18억 3,600",
+      area: "84㎡",
+      views: "20,810회 조회",
+      change: "전월 대비 +5.6%",
+    },
+    {
+      id: "songdo-prugio",
+      rank: 5,
+      name: "송도더샵센트럴시티",
+      address: "인천광역시 연수구 송도동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "8억 9,100",
+      area: "84㎡",
+      views: "18,540회 조회",
+      change: "전월 대비 +4.2%",
+    },
+  ],
+  "90d": [
+    {
+      id: "banpo-riverpark",
+      rank: 1,
+      name: "반포자이",
+      address: "서울특별시 서초구 반포동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "24억 2,000",
+      area: "84㎡",
+      views: "79,420회 조회",
+      change: "분기 대비 +9.3%",
+    },
+    {
+      id: "jamsil-lotte",
+      rank: 2,
+      name: "잠실엘스",
+      address: "서울특별시 송파구 잠실동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "20억 1,500",
+      area: "84㎡",
+      views: "75,810회 조회",
+      change: "분기 대비 +7.1%",
+    },
+    {
+      id: "pangyo-prugio",
+      rank: 3,
+      name: "판교더샵포레스트",
+      address: "경기도 성남시 분당구 삼평동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "17억 8,500",
+      area: "101㎡",
+      views: "72,440회 조회",
+      change: "분기 대비 +6.5%",
+    },
+    {
+      id: "daechi-triple",
+      rank: 4,
+      name: "대치쌍용1차",
+      address: "서울특별시 강남구 대치동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "21억 7,300",
+      area: "84㎡",
+      views: "68,120회 조회",
+      change: "분기 대비 +4.8%",
+    },
+    {
+      id: "hwigyeong-lotte",
+      rank: 5,
+      name: "휘경롯데캐슬",
+      address: "서울특별시 동대문구 휘경동",
+      type: "아파트",
+      tradeType: "매매",
+      price: "12억 4,900",
+      area: "84㎡",
+      views: "65,780회 조회",
+      change: "분기 대비 +3.5%",
+    },
+  ],
+};
+
+function Home({ onShowPage }: HomeProps) {
+  void onShowPage;
+
+  const [selectedTimeframe, setSelectedTimeframe] = useState<string>("7d");
+
+  const properties = useMemo<PropertyItem[]>(() => {
+    return PROPERTY_DATA[selectedTimeframe] ?? [];
+  }, [selectedTimeframe]);
 
   return (
     <div
       style={{
-        height: "100vh",
+        minHeight: "100vh",
         backgroundColor: adaptive.background,
       }}
     >
       <Top
         title={
-          <Top.TitleParagraph size={22} color={adaptive.grey900}>
-            캐쉬디쉬
-          </Top.TitleParagraph>
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            <Top.TitleParagraph size={22} color={adaptive.grey900}>
+              안전진사
+            </Top.TitleParagraph>
+            <Paragraph typography="t6" color={adaptive.grey600}>
+              가장 많이 본 · 조회된 인기 매물을 확인해 보세요
+            </Paragraph>
+          </div>
         }
         right={
-          <div
-            onClick={handleWriteReview}
-            style={{ cursor: "pointer", padding: "8px" }}
-          ></div>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <Asset.Icon
+              frameShape={Asset.frameShape.CircleW36}
+              name="icon-search-mono"
+              backgroundColor={adaptive.grey100}
+              color={adaptive.grey600}
+              aria-hidden={true}
+            />
+            <Asset.Icon
+              frameShape={Asset.frameShape.CircleW36}
+              name="icon-jelly-menu"
+              backgroundColor={adaptive.grey100}
+              color={adaptive.grey600}
+              aria-hidden={true}
+            />
+          </div>
         }
       />
 
-      {/* 검색바 */}
-      <div style={{ padding: "0 8px" }}>
-        <div
-          style={{
-            backgroundColor: adaptive.grey50,
-            borderRadius: "12px",
-            padding: "12px 16px",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            cursor: "pointer",
-            maxWidth: "375px",
-            margin: "0 auto",
-          }}
-        >
-          <Asset.Icon
-            frameShape={Asset.frameShape.CleanW20}
-            name="icon-search-mono"
-            color={adaptive.grey400}
-            aria-hidden={true}
+      <div
+        style={{
+          margin: "0 auto",
+          maxWidth: "375px",
+          padding: "0 16px 96px",
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+        }}
+      >
+        <Paragraph typography="t7" color={adaptive.grey500}>
+          10월 5일 15:45 기준
+        </Paragraph>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <ListHeader
+            title={
+              <ListHeader.TitleParagraph
+                typography="t3"
+                fontWeight="bold"
+                color={adaptive.grey900}
+              >
+                많이 분석한 집
+              </ListHeader.TitleParagraph>
+            }
+            description={
+              <Paragraph typography="t6" color={adaptive.grey600}>
+                분석 데이터로 선정한 인기 급상승 아파트를 살펴보세요
+              </Paragraph>
+            }
+            descriptionPosition="bottom"
           />
-          <span style={{ color: adaptive.grey500, fontSize: "16px" }}>
-            지역, 음식, 키워드로 검색해요
-          </span>
-        </div>
-      </div>
 
-      {/* 탭 섹션 */}
-      <div style={{ padding: "0 8px" }}>
-        <div
-          style={{
-            display: "flex",
-            backgroundColor: adaptive.grey100,
-            borderRadius: "8px",
-            padding: "4px",
-            maxWidth: "375px",
-            margin: "0 auto",
-          }}
-        >
-          <button
-            onClick={() => setSelectedTab("recommend")}
+          <div
             style={{
-              flex: 1,
-              padding: "8px 16px",
-              borderRadius: "6px",
-              border: "none",
-              backgroundColor:
-                selectedTab === "recommend" ? adaptive.grey800 : "transparent",
-              color:
-                selectedTab === "recommend"
-                  ? adaptive.background
-                  : adaptive.grey600,
-              fontSize: "14px",
-              fontWeight: "500",
-              cursor: "pointer",
+              display: "flex",
+              gap: "8px",
+              alignItems: "center",
             }}
           >
-            추천
-          </button>
-          <button
-            onClick={() => setSelectedTab("guidebook")}
-            style={{
-              flex: 1,
-              padding: "8px 16px",
-              borderRadius: "6px",
-              border: "none",
-              backgroundColor:
-                selectedTab === "guidebook" ? adaptive.grey800 : "transparent",
-              color:
-                selectedTab === "guidebook"
-                  ? adaptive.background
-                  : adaptive.grey600,
-              fontSize: "14px",
-              fontWeight: "500",
-              cursor: "pointer",
-            }}
-          >
-            가이드북
-          </button>
-        </div>
-      </div>
-
-      {/* 정렬 필터 */}
-      <div style={{ padding: "0 8px" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            maxWidth: "375px",
-            margin: "0 auto",
-          }}
-        >
-          <div style={{ display: "flex", gap: "8px" }}>
-            <select
-              value={selectedSort}
-              onChange={(e) =>
-                setSelectedSort(e.target.value as "price" | "distance")
-              }
-              style={{
-                borderRadius: "6px",
-                border: `1px solid ${adaptive.grey200}`,
-                backgroundColor: adaptive.background,
-                fontSize: "14px",
-                color: adaptive.grey700,
-                cursor: "pointer",
-              }}
-            >
-              <option value="price">가격순</option>
-              <option value="distance">거리순</option>
-            </select>
+            {TIMEFRAME_OPTIONS.map((option) => {
+              const isSelected = option.id === selectedTimeframe;
+              return (
+                <button
+                  key={option.id}
+                  onClick={() => setSelectedTimeframe(option.id)}
+                  style={{
+                    flex: 1,
+                    minHeight: "40px",
+                    borderRadius: "12px",
+                    border: "none",
+                    backgroundColor: isSelected
+                      ? adaptive.grey900
+                      : adaptive.grey100,
+                    color: isSelected ? adaptive.background : adaptive.grey700,
+                    fontSize: "15px",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  {option.label}
+                </button>
+              );
+            })}
           </div>
-          <span style={{ fontSize: "12px", color: adaptive.grey500 }}>
-            10월 5일 15:45 기준
-          </span>
         </div>
-      </div>
 
-      {/* 맛집 목록 */}
-      <div style={{ padding: "0 8px" }}>
-        {selectedTab === "recommend" ? (
-          <>
-            {/* 맛집 리스트 */}
-            <List style={{ maxWidth: "375px", margin: "0 auto" }}></List>
-          </>
-        ) : (
-          <>
-            {/* 가이드북 리스트 */}
-            <List style={{ maxWidth: "375px", margin: "0 auto" }}>
-              <ListRow
-                contents={
+        <Border variant="height8" />
+
+        <List>
+          {properties.map((property) => (
+            <ListRow
+              key={`${selectedTimeframe}-${property.id}`}
+              horizontalPadding="small"
+              verticalPadding="xlarge"
+              left={
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "20px",
+                    backgroundColor: adaptive.grey100,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Paragraph
+                    typography="t4"
+                    fontWeight="bold"
+                    color={adaptive.grey700}
+                  >
+                    {property.rank}
+                  </Paragraph>
+                </div>
+              }
+              contents={
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
+                      flexWrap: "wrap",
+                      gap: "6px",
+                      alignItems: "center",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                      }}
+                    <Paragraph
+                      typography="t4"
+                      fontWeight="bold"
+                      color={adaptive.grey900}
                     >
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: adaptive.grey500,
-                          backgroundColor: adaptive.grey100,
-                          padding: "2px 6px",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        1
-                      </span>
-                      <Paragraph
-                        color={adaptive.grey900}
-                        fontWeight="bold"
-                        typography="t4"
-                      >
-                        월 200만원대 소비자를 위한 맛집 가이드
-                      </Paragraph>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span
-                        style={{ fontSize: "15px", color: adaptive.grey700 }}
-                      >
-                        가성비 맛집
-                      </span>
-                      <span
-                        style={{ fontSize: "15px", color: adaptive.grey700 }}
-                      >
-                        <Asset.Icon
-                          frameShape={Asset.frameShape.CleanW24}
-                          backgroundColor="transparent"
-                          name="icon-jelly-star"
-                          aria-hidden={true}
-                          ratio="1/1"
-                        />{" "}
-                        4.8
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span
-                        style={{ fontSize: "15px", color: adaptive.grey700 }}
-                      >
-                        혼밥
-                      </span>
-                      <span
-                        style={{ fontSize: "15px", color: adaptive.grey700 }}
-                      >
-                        리뷰 45개
-                      </span>
-                    </div>
+                      {property.name}
+                    </Paragraph>
+                    <Badge variant="weak" color="blue" size="small">
+                      {property.type}
+                    </Badge>
                   </div>
-                }
-                right={
+                  <Paragraph typography="t6" color={adaptive.grey600}>
+                    {property.address}
+                  </Paragraph>
                   <div
                     style={{
-                      textAlign: "right",
                       display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
+                      gap: "8px",
+                      alignItems: "center",
+                      flexWrap: "wrap",
                     }}
                   >
-                    <span
-                      style={{
-                        fontSize: "15px",
-                        color: adaptive.grey900,
-                        fontWeight: "bold",
-                      }}
+                    <Badge variant="fill" color="blue" size="small">
+                      {property.tradeType}
+                    </Badge>
+                    <Paragraph
+                      typography="t5"
+                      fontWeight="bold"
+                      color={adaptive.grey900}
                     >
-                      가이드북
-                    </span>
-                    <span style={{ fontSize: "15px", color: adaptive.grey700 }}>
-                      15개 맛집
-                    </span>
-                    <span style={{ fontSize: "15px", color: adaptive.grey700 }}>
-                      구독중
-                    </span>
+                      {property.price}
+                    </Paragraph>
+                    <Paragraph typography="t7" color={adaptive.grey500}>
+                      {property.area}
+                    </Paragraph>
                   </div>
-                }
-                verticalPadding="large"
-              />
-            </List>
-          </>
-        )}
+                </div>
+              }
+              right={
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-end",
+                    gap: "4px",
+                  }}
+                >
+                  <Paragraph
+                    typography="t6"
+                    fontWeight="bold"
+                    color={adaptive.grey900}
+                  >
+                    {property.views}
+                  </Paragraph>
+                  <Paragraph typography="t7" color={adaptive.blue600}>
+                    {property.change}
+                  </Paragraph>
+                </div>
+              }
+            />
+          ))}
+        </List>
       </div>
-
-      <div style={{ height: "100px" }} />
     </div>
   );
 }
