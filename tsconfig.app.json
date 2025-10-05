@@ -22,7 +22,11 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "paths": {
+      "styled-components": ["./src/shims/styled-components"],
+      "styled-components/*": ["./src/shims/styled-components"]
+    }
   },
   "include": ["src"]
 }
