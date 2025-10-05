@@ -1,73 +1,185 @@
-# React + TypeScript + Vite
+# 맛집 서비스 와이어프레임 v2 (모바일 앱)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 목적: 사용자가 자신의 소득·자산·지출·선호를 설정하고, 이를 기반으로 맞춤 맛집 추천·리뷰·가이드북 기능을 이용할 수 있는 구조 설계.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📱 앱 전체 구조 (탭 기반)
 
-## React Compiler
+- **홈**: 추천 맛집 리스트 (개인 맞춤 추천 / 트렌드 기반 추천)
+- **리뷰**: 리뷰 작성 및 관리 (영수증 인증 / 후기 업로드)
+- **가이드북**: 나만의 맛집 가이드북 생성 및 다른 사용자 가이드북 구독
+- **설정**: 내 프로필 관리 (소득, 자산, 지출, 선호 음식/동네 설정)
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## 🏠 홈 (맞춤 맛집 추천 리스트)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 주요 기능
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 개인 맞춤 추천 맛집 리스트 노출
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+  - 기준: 소득/지출/자산/선호 지역/선호 음식
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- 상단: 오늘의 추천 맛집 카드 (1~3개)
+- 중간: 나와 유사한 사람들의 인기 맛집
+- 하단: 최근 올라온 리뷰 / 신규 가이드북 미리보기
+
+### 구성 예시
+
+```
+┌────────────────────────────┐
+│ [검색바: 지역, 음식, 키워드]  │
+├────────────────────────────┤
+│ 🍜 오늘의 추천 맛집             │
+│  [가게 사진 + 한줄평 + 거리]   │
+├────────────────────────────┤
+│ 👥 나와 비슷한 사람의 인기 맛집 │
+│  [카드 리스트 뷰]               │
+├────────────────────────────┤
+│ 📘 신규 가이드북                │
+│  [가이드북 카드 + 구독 버튼]    │
+└────────────────────────────┘
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ✍️ 리뷰 (리뷰 작성 및 관리)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 플로우
+
+1. **리뷰 쓰기 버튼(+ 리뷰쓰기)** 선택
+2. **영수증 인증 방식 선택**
+
+   - 토스 결제 내역에서 선택
+   - 또는 영수증 사진 스캔 / 매장 수동 검색
+
+3. **후기 작성**
+
+   - 사진(최대 10장) 업로드
+   - 별점 / 가격대 / 재방문 의사 / 동행유형 선택
+   - 후기 내용 입력 + 태그 추가
+
+4. **공개 범위 및 피드 스타일 선택**
+
+   - 카드형 / 인스타형 / 쇼츠형 중 선택
+
+5. **발행 완료 → 홈·지도·가이드북에 반영**
+
+### 구성 예시
+
 ```
+┌──────────────────────────┐
+│  + 리뷰쓰기               │
+├──────────────────────────┤
+│  [영수증 인증]             │
+│  [사진 업로드]             │
+│  [별점 / 태그 / 후기 입력]  │
+│  [공개 범위 선택]           │
+│  [피드 스타일 선택]         │
+│  [발행하기]                │
+└──────────────────────────┘
+```
+
+---
+
+## 📘 가이드북 (작성 및 구독)
+
+### 가이드북 구독
+
+1. 스토어 탭 → 카테고리 선택 (혼밥 / 가성비 / 미슐랭 / 동네 등)
+2. 가이드북 상세 → 목차 / 대표 리스트 / 작성자 확인 → [구독]
+3. 홈 피드에 구독한 가이드북 업데이트 자동 반영
+
+### 나만의 가이드북 생성
+
+- 조건: 내 리뷰 N개 이상 작성 시 (예: 10개)
+
+1. [가이드북 만들기] 버튼 활성화
+2. 제목 / 설명 / 대상 입력
+   (예: 월 200~300만 원대 소비자에게 추천하는 맛집)
+3. 구성 규칙 선택 (태그 / 지역 / 가격대)
+4. 항목 추가 (내 리뷰에서 선택 or 자동 추천)
+5. 공개 / 비공개 / 구독 가능 설정 → 발행 완료
+
+### 구성 예시
+
+```
+┌────────────────────────────┐
+│ [가이드북 목록 / 구독]       │
+│  - 내 가이드북 (편집/공개 설정) │
+│  - 구독한 가이드북 목록         │
+│  - 스토어에서 가이드북 찾기     │
+└────────────────────────────┘
+```
+
+---
+
+## ⚙️ 설정 (내 프로필 관리)
+
+### 주요 항목
+
+- 내 정보: 프로필 이미지, 닉네임
+- **자산 / 소득 / 지출 설정**
+
+  - 월 소득: 범위 슬라이더로 선택
+  - 자산: 범위 선택
+  - 월 지출: 범위 선택
+
+- **선호 정보 설정**
+
+  - 음식 종류 (예: 한식, 일식, 디저트 등)
+  - 선호 지역 (예: 강남, 홍대, 판교 등)
+  - 동행 유형 (혼밥 / 커플 / 단체 등)
+
+### 구성 예시
+
+```
+┌────────────────────────────┐
+│ 내 프로필                  │
+│  - 닉네임 / 이미지 변경     │
+├────────────────────────────┤
+│ 소득 설정 (월 단위 슬라이더) │
+│ 자산 설정 (범위 선택)       │
+│ 지출 설정 (범위 선택)       │
+├────────────────────────────┤
+│ 선호 음식 선택              │
+│ 선호 동네 선택              │
+└────────────────────────────┘
+```
+
+---
+
+## 🔁 주요 사용자 플로우 요약
+
+| 구분     | 주요 단계                             | 결과                         |
+| -------- | ------------------------------------- | ---------------------------- |
+| 홈       | 개인화 맛집 추천 확인                 | 나만의 맞춤 리스트 제공      |
+| 리뷰     | 영수증 인증 → 후기 작성 → 발행        | 후기 공유 및 피드 반영       |
+| 가이드북 | 리뷰 10개 이상 → 가이드북 생성 / 구독 | 개인 큐레이션 활성화         |
+| 설정     | 소득, 자산, 지출, 선호 입력           | 개인화 추천 기반 데이터 구성 |
+
+---
+
+## 📊 데이터 구조(서버/클라이언트 역할)
+
+- **서버**: 식당 코드 / 리뷰 / 가이드북 / 추천 알고리즘 저장
+- **클라이언트**: 위치 기반 처리 / 지도 표시 / UI 구성
+- **추천 로직**: 사용자 프로필 기반 유사도(소득·지출·선호) 계산 후 Top-N 매칭
+
+---
+
+## ✅ 디자인 방향 요약
+
+- 컬러: 화이트 + 브랜드 블루 (#3182F6)
+- 폰트: San-serif / Bold 강조
+- 인터랙션: 카드 스와이프, 슬라이더 선택, 리스트 클릭
+- 피드 스타일: 카드형(기본) / 인스타형(정사각) / 쇼츠형(9:16)
+
+---
+
+## 🚀 향후 확장 고려사항
+
+- **AI 맛집 추천**: GPT 기반 사용자 취향 예측 추천
+- **소비 패턴 분석**: 카드 내역 기반 맛집 소비 그래프 제공
+- **친구 기반 추천**: 유사한 소비 패턴 친구의 맛집 노출
