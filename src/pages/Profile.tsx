@@ -6,6 +6,7 @@ import {
   Border,
   ListHeader,
   Badge,
+  Button,
 } from "@toss/tds-mobile";
 import { adaptive } from "@toss/tds-colors";
 
@@ -17,126 +18,135 @@ function Profile({ onShowPage }: ProfileProps) {
   return (
     <div
       style={{
-        height: "100vh",
-        backgroundColor: adaptive.background,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center",
+        alignContent: "center",
+        width: "375px",
       }}
     >
-      <Top
-        title={
-          <Top.TitleParagraph size={22} color={adaptive.grey900}>
-            프로필
-          </Top.TitleParagraph>
-        }
-        right={
-          <div
-            onClick={() => onShowPage("edit-profile")}
-            style={{ cursor: "pointer", padding: "8px" }}
-            aria-label="프로필 수정"
-          >
-            <Asset.Icon
-              frameShape={Asset.frameShape.CleanW20}
-              name="icon-pencil-line-mono"
-              color="rgba(0, 19, 43, 0.58)"
-              aria-hidden={true}
-            />
-          </div>
-        }
-      />
-
-      <div style={{ height: "54px" }} />
-
-      {/* 프로필 이미지 */}
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
+          alignContent: "center",
           alignItems: "center",
-          padding: "0 8px",
         }}
       >
-        <img
-          src="https://static.toss.im/illusts/img-profile-03.png"
-          alt="프로필 이미지"
-          style={{ width: "120px", height: "120px", borderRadius: "50%" }}
-        />
-        <div style={{ marginTop: "12px" }}>
-          <Asset.Icon
-            frameShape={Asset.frameShape.CleanW24}
-            name="icon-plus-circle-grey"
-            color={adaptive.grey400}
-            aria-hidden={true}
+        <div>
+          <Top
+            title={
+              <Top.TitleParagraph size={22} color={adaptive.grey900}>
+                프로필
+              </Top.TitleParagraph>
+            }
           />
+
+          {/* 프로필 이미지 */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "0 8px",
+            }}
+          >
+            <img
+              src="https://static.toss.im/illusts/img-profile-03.png"
+              alt="프로필 이미지"
+              style={{ width: "120px", height: "120px", borderRadius: "50%" }}
+            />
+          </div>
         </div>
-      </div>
 
-      <div style={{ height: "22px" }} />
+        {/* 기본 정보 */}
+        <div style={{ paddingTop: "60px" }}>
+          <List>
+            <ListRow
+              contents={
+                <ListRow.Texts
+                  type="1RowTypeA"
+                  top="닉네임"
+                  topProps={{ color: adaptive.grey800 }}
+                />
+              }
+              right={
+                <ListRow.Texts
+                  type="Right1RowTypeA"
+                  top="맛집탐험가"
+                  topProps={{ color: adaptive.grey700 }}
+                  marginTop={0}
+                />
+              }
+              verticalPadding="large"
+            />
 
-      {/* 기본 정보 */}
-      <div style={{ padding: "0 8px" }}>
-        <List>
-          <ListRow
-            contents={
-              <ListRow.Texts
-                type="1RowTypeA"
-                top="닉네임"
-                topProps={{ color: adaptive.grey800 }}
-              />
-            }
-            right={
-              <ListRow.Texts
-                type="Right1RowTypeA"
-                top="맛집탐험가"
-                topProps={{ color: adaptive.grey700 }}
-                marginTop={0}
-              />
-            }
-            verticalPadding="large"
-          />
+            <ListRow
+              contents={
+                <ListRow.Texts
+                  type="1RowTypeA"
+                  top="가입일"
+                  topProps={{ color: adaptive.grey800 }}
+                />
+              }
+              right={
+                <ListRow.Texts
+                  type="Right1RowTypeA"
+                  top="2024.01.15"
+                  topProps={{ color: adaptive.grey700 }}
+                  marginTop={0}
+                />
+              }
+              verticalPadding="large"
+            />
 
-          <ListRow
-            contents={
-              <ListRow.Texts
-                type="1RowTypeA"
-                top="가입일"
-                topProps={{ color: adaptive.grey800 }}
-              />
-            }
-            right={
-              <ListRow.Texts
-                type="Right1RowTypeA"
-                top="2024.01.15"
-                topProps={{ color: adaptive.grey700 }}
-                marginTop={0}
-              />
-            }
-            verticalPadding="large"
-          />
-
-          <ListRow
-            contents={
-              <ListRow.Texts
-                type="1RowTypeA"
-                top="작성한 리뷰"
-                topProps={{ color: adaptive.grey800 }}
-              />
-            }
-            right={
-              <ListRow.Texts
-                type="Right1RowTypeA"
-                top="24개"
-                topProps={{ color: adaptive.grey700 }}
-                marginTop={0}
-              />
-            }
-            verticalPadding="large"
-          />
-        </List>
+            <ListRow
+              contents={
+                <ListRow.Texts
+                  type="1RowTypeA"
+                  top="작성한 리뷰"
+                  topProps={{ color: adaptive.grey800 }}
+                />
+              }
+              right={
+                <ListRow.Texts
+                  type="Right1RowTypeA"
+                  top="24개"
+                  topProps={{ color: adaptive.grey700 }}
+                  marginTop={0}
+                />
+              }
+              verticalPadding="large"
+            />
+          </List>
+        </div>
       </div>
 
       <Border variant="height16" />
 
       {/* 소득 정보 */}
-      <div style={{ padding: "0 8px" }}>
+      <div
+        style={{
+          padding: "0 8px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+        }}
+      ></div>
+
+      <div style={{ height: "16px" }} />
+
+      {/* 취향 정보 */}
+      <div
+        style={{
+          padding: "0 8px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+        }}
+      >
         <ListHeader
           title={
             <ListHeader.TitleParagraph
@@ -172,47 +182,6 @@ function Profile({ onShowPage }: ProfileProps) {
             }
             verticalPadding="large"
           />
-
-          <ListRow
-            contents={
-              <ListRow.Texts
-                type="1RowTypeA"
-                top="식비 예산"
-                topProps={{ color: adaptive.grey800 }}
-              />
-            }
-            right={
-              <ListRow.Texts
-                type="Right1RowTypeA"
-                top="월 50만원"
-                topProps={{ color: adaptive.grey700 }}
-                marginTop={0}
-              />
-            }
-            verticalPadding="large"
-          />
-        </List>
-      </div>
-
-      <div style={{ height: "16px" }} />
-      <Border variant="padding24" />
-
-      {/* 자산 정보 */}
-      <div style={{ padding: "0 8px" }}>
-        <ListHeader
-          title={
-            <ListHeader.TitleParagraph
-              color={adaptive.grey800}
-              fontWeight="bold"
-              typography="t5"
-            >
-              자산 정보
-            </ListHeader.TitleParagraph>
-          }
-          descriptionPosition="bottom"
-        />
-
-        <List>
           <ListRow
             contents={
               <ListRow.Texts
@@ -251,13 +220,9 @@ function Profile({ onShowPage }: ProfileProps) {
             verticalPadding="large"
           />
         </List>
-      </div>
 
-      <div style={{ height: "16px" }} />
-      <Border variant="padding24" />
+        <Border variant="padding24" />
 
-      {/* 취향 정보 */}
-      <div style={{ padding: "0 8px" }}>
         <ListHeader
           title={
             <ListHeader.TitleParagraph
@@ -329,6 +294,41 @@ function Profile({ onShowPage }: ProfileProps) {
             verticalPadding="large"
           />
         </List>
+      </div>
+
+      <Border variant="padding24" />
+
+      {/* 토스 로그인 섹션 */}
+      <div
+        style={{
+          padding: "0 8px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          width: "100%",
+        }}
+      >
+        <ListHeader
+          title={
+            <ListHeader.TitleParagraph
+              color={adaptive.grey800}
+              fontWeight="bold"
+              typography="t5"
+            >
+              계정 관리
+            </ListHeader.TitleParagraph>
+          }
+          descriptionPosition="bottom"
+        />
+
+        <Button
+          variant="primary"
+          size="large"
+          onClick={() => onShowPage("toss-login")}
+          style={{ marginTop: "16px" }}
+        >
+          토스 로그인 테스트
+        </Button>
       </div>
 
       <div style={{ height: "64px" }} />

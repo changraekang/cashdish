@@ -16,6 +16,12 @@ export default defineConfig({
       build: "tsc -b && vite build",
     },
   },
+  viewport: {
+    userScalable: false, // 핀치줌 비활성화
+    initialScale: 1.0,
+    maximumScale: 1.0,
+    minimumScale: 1.0,
+  },
   permissions: [],
   outdir: "dist",
 });

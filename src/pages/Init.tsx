@@ -10,7 +10,13 @@ interface InitProps {
 function Init({ onComplete }: InitProps) {
   return (
     <>
-      <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <Top
           title={
             <Top.TitleParagraph size={22} color={adaptive.grey900}>
@@ -37,7 +43,7 @@ function Init({ onComplete }: InitProps) {
           }
           descriptionPosition="bottom"
         />
-        <>
+        <div>
           <StepperRow
             left={<StepperRow.NumberIcon number={1} />}
             center={
@@ -69,11 +75,11 @@ function Init({ onComplete }: InitProps) {
             }
             hideLine={true}
           />
-        </>
+        </div>
         <div onClick={onComplete}>
           <FixedBottomCTA loading={false}>다음</FixedBottomCTA>
         </div>
-      </>
+      </div>
     </>
   );
 }

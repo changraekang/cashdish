@@ -90,7 +90,7 @@ function Home() {
   }, []);
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Top
         title={
           <Top.TitleParagraph>
@@ -98,17 +98,16 @@ function Home() {
           </Top.TitleParagraph>
         }
       />
-      <SegmentedControl
-        value={selectedSort}
-        onChange={(value) => setSelectedSort(value)}
-      >
-        <SegmentedControl.Item value="recommend">
-          추천맛집
-        </SegmentedControl.Item>
-        <SegmentedControl.Item value="guidebook">
-          가이드북
-        </SegmentedControl.Item>
-      </SegmentedControl>
+      <div style={{ height: "40px" }}>
+        <SegmentedControl size="large" defaultValue="recommend">
+          <SegmentedControl.Item value="recommend">
+            추천맛집
+          </SegmentedControl.Item>
+          <SegmentedControl.Item value="guidebook">
+            가이드북
+          </SegmentedControl.Item>
+        </SegmentedControl>
+      </div>
       <List style={{ maxWidth: "375px" }}>
         {restaurants.map((restaurant) => (
           <ListRow
@@ -215,7 +214,7 @@ function Home() {
         ))}
       </List>
       <div style={{ height: "100px" }} />
-    </>
+    </div>
   );
 }
 
