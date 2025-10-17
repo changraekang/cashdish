@@ -1,284 +1,218 @@
-import { Top, Asset, Paragraph, List, ListRow } from "@toss/tds-mobile";
+import {
+  Top,
+  Asset,
+  Paragraph,
+  List,
+  ListRow,
+  ListHeader,
+  Badge,
+  Border,
+  GridList,
+  SegmentedControl,
+} from "@toss/tds-mobile";
 import { adaptive } from "@toss/tds-colors";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-interface HomeProps {
-  onShowPage: (page: string) => void;
+interface RestaurantItem {
+  id: string;
+  rank: number;
+  name: string;
+  address: string;
+  category: string;
+  price: string;
+  rating: string;
+  reviews: string;
 }
 
-function Home({ onShowPage }: HomeProps) {
-  const [selectedTab, setSelectedTab] = useState<"recommend" | "guidebook">(
-    "recommend"
-  );
-  const [selectedSort, setSelectedSort] = useState<"price" | "distance">(
-    "price"
-  );
+const SORT_OPTIONS = [
+  { id: "price", label: "가격순" },
+  { id: "distance", label: "거리순" },
+];
 
-  const handleWriteReview = () => {
-    onShowPage("write-review");
-  };
+const RESTAURANT_DATA: RestaurantItem[] = [
+  {
+    id: "gangnam-matjip",
+    rank: 1,
+    name: "강남 맛집",
+    address: "강남구 역삼동 123",
+    category: "한식",
+    price: "1인 8,000원",
+    rating: "4.8",
+    reviews: "리뷰 127개",
+  },
+  {
+    id: "hongdae-matjip",
+    rank: 2,
+    name: "홍대 맛집",
+    address: "마포구 홍대입구역",
+    category: "일식",
+    price: "1인 12,000원",
+    rating: "4.6",
+    reviews: "리뷰 89개",
+  },
+  {
+    id: "itaewon-cafe",
+    rank: 3,
+    name: "이태원 카페",
+    address: "용산구 이태원동",
+    category: "카페",
+    price: "1인 6,500원",
+    rating: "4.7",
+    reviews: "리뷰 156개",
+  },
+  {
+    id: "banpo-matjip",
+    rank: 4,
+    name: "반포 맛집",
+    address: "서초구 반포동",
+    category: "양식",
+    price: "1인 25,000원",
+    rating: "4.9",
+    reviews: "리뷰 203개",
+  },
+  {
+    id: "myeongdong-korean",
+    rank: 5,
+    name: "명동 한정식",
+    address: "중구 명동",
+    category: "한식",
+    price: "1인 15,000원",
+    rating: "4.5",
+    reviews: "리뷰 98개",
+  },
+];
+
+function Home() {
+  const [selectedSort, setSelectedSort] = useState<string>("recommend");
+
+  const restaurants = useMemo<RestaurantItem[]>(() => {
+    return RESTAURANT_DATA;
+  }, []);
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        backgroundColor: adaptive.background,
-      }}
-    >
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Top
         title={
-          <Top.TitleParagraph size={22} color={adaptive.grey900}>
-            캐쉬디쉬
+          <Top.TitleParagraph>
+            당신의 지갑을 분석한 맛집 추천입니다.
           </Top.TitleParagraph>
         }
-        right={
-          <div
-            onClick={handleWriteReview}
-            style={{ cursor: "pointer", padding: "8px" }}
-          ></div>
-        }
       />
-
-      {/* 검색바 */}
-      <div style={{ padding: "0 8px" }}>
-        <div
-          style={{
-            backgroundColor: adaptive.grey50,
-            borderRadius: "12px",
-            padding: "12px 16px",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            cursor: "pointer",
-            maxWidth: "375px",
-            margin: "0 auto",
-          }}
-        >
-          <Asset.Icon
-            frameShape={Asset.frameShape.CleanW20}
-            name="icon-search-mono"
-            color={adaptive.grey400}
-            aria-hidden={true}
-          />
-          <span style={{ color: adaptive.grey500, fontSize: "16px" }}>
-            지역, 음식, 키워드로 검색해요
-          </span>
-        </div>
-      </div>
-
-      {/* 탭 섹션 */}
-      <div style={{ padding: "0 8px" }}>
-        <div
-          style={{
-            display: "flex",
-            backgroundColor: adaptive.grey100,
-            borderRadius: "8px",
-            padding: "4px",
-            maxWidth: "375px",
-            margin: "0 auto",
-          }}
-        >
-          <button
-            onClick={() => setSelectedTab("recommend")}
-            style={{
-              flex: 1,
-              padding: "8px 16px",
-              borderRadius: "6px",
-              border: "none",
-              backgroundColor:
-                selectedTab === "recommend" ? adaptive.grey800 : "transparent",
-              color:
-                selectedTab === "recommend"
-                  ? adaptive.background
-                  : adaptive.grey600,
-              fontSize: "14px",
-              fontWeight: "500",
-              cursor: "pointer",
-            }}
-          >
-            추천
-          </button>
-          <button
-            onClick={() => setSelectedTab("guidebook")}
-            style={{
-              flex: 1,
-              padding: "8px 16px",
-              borderRadius: "6px",
-              border: "none",
-              backgroundColor:
-                selectedTab === "guidebook" ? adaptive.grey800 : "transparent",
-              color:
-                selectedTab === "guidebook"
-                  ? adaptive.background
-                  : adaptive.grey600,
-              fontSize: "14px",
-              fontWeight: "500",
-              cursor: "pointer",
-            }}
-          >
+      <div style={{ height: "40px" }}>
+        <SegmentedControl size="large" defaultValue="recommend">
+          <SegmentedControl.Item value="recommend">
+            추천맛집
+          </SegmentedControl.Item>
+          <SegmentedControl.Item value="guidebook">
             가이드북
-          </button>
-        </div>
+          </SegmentedControl.Item>
+        </SegmentedControl>
       </div>
-
-      {/* 정렬 필터 */}
-      <div style={{ padding: "0 8px" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            maxWidth: "375px",
-            margin: "0 auto",
-          }}
-        >
-          <div style={{ display: "flex", gap: "8px" }}>
-            <select
-              value={selectedSort}
-              onChange={(e) =>
-                setSelectedSort(e.target.value as "price" | "distance")
-              }
-              style={{
-                borderRadius: "6px",
-                border: `1px solid ${adaptive.grey200}`,
-                backgroundColor: adaptive.background,
-                fontSize: "14px",
-                color: adaptive.grey700,
-                cursor: "pointer",
-              }}
-            >
-              <option value="price">가격순</option>
-              <option value="distance">거리순</option>
-            </select>
-          </div>
-          <span style={{ fontSize: "12px", color: adaptive.grey500 }}>
-            10월 5일 15:45 기준
-          </span>
-        </div>
-      </div>
-
-      {/* 맛집 목록 */}
-      <div style={{ padding: "0 8px" }}>
-        {selectedTab === "recommend" ? (
-          <>
-            {/* 맛집 리스트 */}
-            <List style={{ maxWidth: "375px", margin: "0 auto" }}></List>
-          </>
-        ) : (
-          <>
-            {/* 가이드북 리스트 */}
-            <List style={{ maxWidth: "375px", margin: "0 auto" }}>
-              <ListRow
-                contents={
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
-                    }}
+      <List style={{ maxWidth: "375px" }}>
+        {restaurants.map((restaurant) => (
+          <ListRow
+            key={restaurant.id}
+            left={
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "20px",
+                  backgroundColor: adaptive.grey100,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Paragraph
+                  typography="t4"
+                  fontWeight="bold"
+                  color={adaptive.grey700}
+                >
+                  {restaurant.rank}
+                </Paragraph>
+              </div>
+            }
+            contents={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "6px",
+                    alignItems: "center",
+                  }}
+                >
+                  <Paragraph
+                    typography="t4"
+                    fontWeight="bold"
+                    color={adaptive.grey900}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: adaptive.grey500,
-                          backgroundColor: adaptive.grey100,
-                          padding: "2px 6px",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        1
-                      </span>
-                      <Paragraph
-                        color={adaptive.grey900}
-                        fontWeight="bold"
-                        typography="t4"
-                      >
-                        월 200만원대 소비자를 위한 맛집 가이드
-                      </Paragraph>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span
-                        style={{ fontSize: "15px", color: adaptive.grey700 }}
-                      >
-                        가성비 맛집
-                      </span>
-                      <span
-                        style={{ fontSize: "15px", color: adaptive.grey700 }}
-                      >
-                        <Asset.Icon
-                          frameShape={Asset.frameShape.CleanW24}
-                          backgroundColor="transparent"
-                          name="icon-jelly-star"
-                          aria-hidden={true}
-                          ratio="1/1"
-                        />{" "}
-                        4.8
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span
-                        style={{ fontSize: "15px", color: adaptive.grey700 }}
-                      >
-                        혼밥
-                      </span>
-                      <span
-                        style={{ fontSize: "15px", color: adaptive.grey700 }}
-                      >
-                        리뷰 45개
-                      </span>
-                    </div>
-                  </div>
-                }
-                right={
-                  <div
-                    style={{
-                      textAlign: "right",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
-                    }}
+                    {restaurant.name}
+                  </Paragraph>
+                  <Badge variant="weak" color="blue" size="small">
+                    {restaurant.category}
+                  </Badge>
+                </div>
+                <Paragraph typography="t6" color={adaptive.grey600}>
+                  {restaurant.address}
+                </Paragraph>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <Paragraph
+                    typography="t5"
+                    fontWeight="bold"
+                    color={adaptive.grey900}
                   >
-                    <span
-                      style={{
-                        fontSize: "15px",
-                        color: adaptive.grey900,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      가이드북
-                    </span>
-                    <span style={{ fontSize: "15px", color: adaptive.grey700 }}>
-                      15개 맛집
-                    </span>
-                    <span style={{ fontSize: "15px", color: adaptive.grey700 }}>
-                      구독중
-                    </span>
-                  </div>
-                }
-                verticalPadding="large"
-              />
-            </List>
-          </>
-        )}
-      </div>
-
+                    {restaurant.price}
+                  </Paragraph>
+                </div>
+              </div>
+            }
+            right={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  gap: "4px",
+                }}
+              >
+                <Paragraph
+                  typography="t6"
+                  fontWeight="bold"
+                  color={adaptive.grey900}
+                >
+                  <Asset.Icon
+                    frameShape={Asset.frameShape.CleanW24}
+                    backgroundColor="transparent"
+                    name="icon-jelly-star"
+                    aria-hidden={true}
+                    ratio="1/1"
+                    style={{ marginRight: "4px" }}
+                  />
+                  {restaurant.rating}
+                </Paragraph>
+                <Paragraph typography="t7" color={adaptive.grey500}>
+                  {restaurant.reviews}
+                </Paragraph>
+              </div>
+            }
+          />
+        ))}
+      </List>
       <div style={{ height: "100px" }} />
     </div>
   );

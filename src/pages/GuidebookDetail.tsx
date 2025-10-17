@@ -3,9 +3,10 @@ import { adaptive } from "@toss/tds-colors";
 
 interface GuidebookDetailProps {
   onHidePage: () => void;
+  guidebookId?: string;
 }
 
-function GuidebookDetail({ onHidePage }: GuidebookDetailProps) {
+function GuidebookDetail({ onHidePage, guidebookId }: GuidebookDetailProps) {
   const handleBack = () => {
     onHidePage();
   };
@@ -14,7 +15,7 @@ function GuidebookDetail({ onHidePage }: GuidebookDetailProps) {
       <Top
         title={
           <Top.TitleParagraph size={22} color={adaptive.grey900}>
-            가이드북 상세
+            가이드북 상세 {guidebookId && `(${guidebookId})`}
           </Top.TitleParagraph>
         }
         right={

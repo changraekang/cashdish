@@ -21,7 +21,14 @@ function WriteReview() {
   };
 
   return (
-    <div style={{ height: "100vh", backgroundColor: adaptive.background }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        backgroundColor: "blue",
+      }}
+    >
       <Top
         title={
           <Top.TitleParagraph size={22} color={adaptive.grey900}>
@@ -34,7 +41,7 @@ function WriteReview() {
         {/* 사진 선택 영역 */}
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
           <div
-            onClick={handleImageSelect}
+            onClick={() => handleImageSelect()}
             style={{
               width: "120px",
               height: "120px",

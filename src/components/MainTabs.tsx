@@ -21,12 +21,13 @@ import StoreDetail from "../pages/StoreDetail";
 import { useState } from "react";
 
 function MainTabs() {
-  const { activeTab, setActiveTab } = useTab();
+  const { activeTab, setActiveTab, onShowPage } = useTab();
   const [currentPage, setCurrentPage] = useState<string>("");
 
   // 페이지 전환 함수
   const showPage = (page: string) => {
     setCurrentPage(page);
+    onShowPage(page);
   };
 
   const hidePage = () => {
@@ -36,9 +37,7 @@ function MainTabs() {
   return (
     <div
       style={{
-        alignItems: "center",
-        justifyContent: "center",
-        maxWidth: "375px",
+        display: "flex",
       }}
     >
       {/* 메인 탭 페이지들 */}
@@ -79,6 +78,10 @@ function MainTabs() {
         style={{
           display: activeTab === "settings" ? "block" : "none",
           paddingBottom: "80px",
+          alignItems: "center",
+          justifyContent: "center",
+          alignSelf: "center",
+          alignContent: "center",
         }}
       >
         <Profile onShowPage={showPage} />
