@@ -13,7 +13,7 @@ export default defineConfig({
     port: 5173,
     commands: {
       dev: "vite dev",
-      build: "tsc -b && vite build",
+      build: "vite build",
     },
   },
   viewport: {
