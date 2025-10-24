@@ -27,8 +27,9 @@ export const useAuth = (): AuthState => {
       setLoading(true);
       setError(null);
 
+      console.log("appLogin ::: start");
       const { authorizationCode, referrer } = await appLogin();
-
+      console.log("appLogin ::: end");
       const data = await post<TokenResponse, LoginRequest>(
         "/get-access-token",
         { authorizationCode, referrer }

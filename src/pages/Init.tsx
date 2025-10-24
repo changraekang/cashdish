@@ -38,7 +38,7 @@ function Init({ onComplete }: InitProps) {
               fontWeight="bold"
               typography="t5"
             >
-              내 지갑에 딱 맞는 맛집을 찾아드릴게요
+              내 지갑에 딱 맞는 맛집을 찾아드릴게요12
             </ListHeader.TitleParagraph>
           }
           descriptionPosition="bottom"
@@ -76,9 +76,9 @@ function Init({ onComplete }: InitProps) {
             hideLine={true}
           />
         </div>
-        <div onClick={onComplete}>
-          <FixedBottomCTA loading={false}>다음</FixedBottomCTA>
-        </div>
+        <FixedBottomCTA loading={false} onClick={onComplete}>
+          다음
+        </FixedBottomCTA>
       </div>
     </>
   );

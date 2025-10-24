@@ -8,7 +8,7 @@ import { useState } from "react";
 function AppRouter() {
   const [isInitialized, setIsInitialized] = useState(false);
   const [currentPage, setCurrentPage] = useState<string>("");
-
+  console.log("currentPage ::: ", currentPage);
   const handleInitComplete = () => {
     setIsInitialized(true);
   };
@@ -33,11 +33,12 @@ function AppRouter() {
         guidebookId={currentPage.replace("guidebook-detail-", "")}
       />
     );
+  } else {
+    return <TossLogin onHidePage={handleHidePage} />;
   }
 
   // 토스 로그인 페이지 라우팅
   if (currentPage === "toss-login") {
-    return <TossLogin onHidePage={handleHidePage} />;
   }
 
   return (

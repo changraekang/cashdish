@@ -1,5 +1,6 @@
 export const baseURL =
-  import.meta.env.VITE_SERVER_BASE_URL ?? "http://localhost:4000";
+  import.meta.env.VITE_SERVER_BASE_URL ??
+  "https://api.sparkling-rae.com/tossLogin";
 
 if (!import.meta.env.VITE_SERVER_BASE_URL) {
   console.warn(
