@@ -13,8 +13,14 @@ export default defineConfig({
     port: 5173,
     commands: {
       dev: "vite dev",
-      build: "tsc -b && vite build",
+      build: "vite build",
     },
+  },
+  viewport: {
+    userScalable: false, // 핀치줌 비활성화
+    initialScale: 1.0,
+    maximumScale: 1.0,
+    minimumScale: 1.0,
   },
   permissions: [],
   outdir: "dist",
